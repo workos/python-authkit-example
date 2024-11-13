@@ -1,0 +1,14 @@
+{% extends "layout.html" %} {% block title %}Account{% endblock %} {% block
+content %}
+<h1>Welcome, {{ current_user.first_name }}</h1>
+<div>Below are your account details</div>
+<ul class="account-details">
+  <li>First name: {{ current_user.first_name }}</li>
+  <li>Last name: {{ current_user.last_name }}</li>
+  <li>Email: {{ current_user.email }}</li>
+  {% if current_user.role %}
+  <li>Role: {{ current_user.role }}</li>
+  {% endif %}
+  <li>ID: {{ current_user.id }}</li>
+</ul>
+{% endblock %}

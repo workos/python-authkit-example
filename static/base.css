@@ -1,0 +1,122 @@
+:root {
+  --light-grey: #F6F9FC;
+  --dark-terminal-color: #0A2540;
+  --radius: 7px;
+  --slate: color(display-p3 0.988 0.988 0.992);
+  --slate-accent: color(display-p3 0 0.02 0.063 / 0.62);
+  --default-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI (Custom)', Roboto, 'Helvetica Neue', 'Open Sans (Custom)', system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --blurple: color(display-p3 0.357 0.357 0.81);
+}
+
+body {
+  padding: 20px 15rem 20px 15rem;
+  font-family: var(--default-font-family);
+  display: flex;
+  justify-content: center;
+  font-size: 1.2em;
+  color: var(--dark-terminal-color);
+  background-color: var(--slate);
+}
+
+button {
+  background-color: var(--accent-color);
+}
+
+button {
+  background: var(--blurple);
+  border-radius: var(--radius);
+  color: white;
+  border: 0;
+  padding: 12px 16px;
+  margin-top: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+}
+button:hover {
+  filter: contrast(115%);
+}
+button:active {
+  transform: translateY(0px) scale(0.98);
+  filter: brightness(0.9);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: none;
+}
+
+input, select {
+  display: block;
+  font-size: 1.1em;
+  width: 100%;
+}
+
+label {
+  display: block;
+}
+
+p {
+  color: var(--slate-accent);
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  display: grid;
+  flex-direction: column;
+}
+
+.nav {
+  padding-left: 2rem;
+  padding-top: 1rem;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 10rem;
+  justify-items: center;
+  align-items: center;
+}
+
+.content div {
+  display: flex;
+  gap: 10px;
+}
+
+.account-details li {
+  color: var(--slate-accent);
+}
+
+.footer {
+  margin-top: 2rem;
+  display: inline-flex;
+  gap: 2rem;
+}
+
+.footer div {
+  padding: 2rem;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+  color: var(--slate-accent);
+}
+
+.footer a {
+  display: flex;
+  flex-direction: column;
+  color: var(--slate-accent);
+}

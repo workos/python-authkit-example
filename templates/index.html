@@ -1,0 +1,15 @@
+{% extends "layout.html" %} {% block title %} AuthKit authentication example
+{%endblock %} {% block content %} {% if current_user %}
+<p>Welcome back, {{ current_user.first_name }}</p>
+<div>
+  <a href="/account"><button>View account</button></a>
+  <form action="/logout" method="get">
+    <button type="submit">Sign out</button>
+  </form>
+</div>
+{% else %}
+<p>Sign in to view your account details</p>
+<a href="/login">
+  <button>Sign in with AuthKit</button>
+</a>
+{% endif %} {% endblock %}
