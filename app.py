@@ -16,7 +16,7 @@ cookie_password = os.getenv('WORKOS_COOKIE_PASSWORD')
 def with_auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        session = workos.user_management.load_sealed_session(session_data=request.cookies.get('wos_session'), cookie_password=cookie_password)
+        session = workos.user_management.load_sealed_session(sealed_session=request.cookies.get('wos_session'), cookie_password=cookie_password)
         auth_response = session.authenticate()
         if auth_response.authenticated:
             return f(*args, **kwargs)
@@ -26,6 +26,7 @@ def with_auth(f):
 
         # If no session, attempt a refresh
         try:
+            print("Refreshing session")
             result = session.refresh()
             if result.authenticated == False:
                 return make_response(redirect('/login'))
@@ -34,7 +35,7 @@ def with_auth(f):
             response.set_cookie('wos_session', result.sealed_session, secure=True, httponly=True, samesite='lax')
             return response
         except Exception as e:
-            print(e)
+            print("Error refreshing session", e)
             response = make_response(redirect('/login'))
             response.delete_cookie("wos_session")
             return response
@@ -44,7 +45,7 @@ def with_auth(f):
 @app.route('/')
 def home():
 
-    session = workos.user_management.load_sealed_session(session_data=request.cookies.get('wos_session'), cookie_password=cookie_password)
+    session = workos.user_management.load_sealed_session(sealed_session=request.cookies.get('wos_session'), cookie_password=cookie_password)
     response = session.authenticate()
 
     current_user = response.user if response.authenticated else None
@@ -54,7 +55,7 @@ def home():
 @app.route('/account')
 @with_auth
 def account():
-    session = workos.user_management.load_sealed_session(session_data=request.cookies.get('wos_session'), cookie_password=cookie_password)
+    session = workos.user_management.load_sealed_session(sealed_session=request.cookies.get('wos_session'), cookie_password=cookie_password)
     response = session.authenticate()
 
     current_user = response.user if response.authenticated else None
@@ -68,13 +69,15 @@ def callback():
     try:
         auth_response = workos.user_management.authenticate_with_code(code=code, session={ "seal_session": True, "cookie_password": cookie_password })
 
+        print("Successfully authenticated")
+
         # store the session in a cookie
         response = make_response(redirect('/'))
         response.set_cookie('wos_session', auth_response.sealed_session, secure=True, httponly=True, samesite='lax')
         return response
 
     except Exception as e:
-        print(e)
+        print("Error authenticating with code", e)
         return redirect(url_for('/login'))
 
 @app.route('/login')
@@ -85,7 +88,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session = workos.user_management.load_sealed_session(session_data=request.cookies.get('wos_session'), cookie_password=cookie_password)
+    session = workos.user_management.load_sealed_session(sealed_session=request.cookies.get('wos_session'), cookie_password=cookie_password)
     url = session.get_logout_url()
 
     # After log out has succeeded, the user will be redirected to your app homepage which is configured in the WorkOS dashboard
