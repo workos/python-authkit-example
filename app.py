@@ -111,7 +111,7 @@ def callback():
 
     except Exception as e:
         print("Error authenticating with code", e)
-        return redirect(url_for("/login"))
+        return redirect(url_for("login"))
 
 
 @app.route("/login")
