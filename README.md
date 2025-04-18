@@ -23,7 +23,7 @@ Python 3
    It has to be exactly 32 characters long. You can use https://1password.com/password-generator/ to generate strong passwords. Alternatively, use the OpenSSL library to generate a secure password:
 
    ```bash
-   openssl rand -base64 24
+   openssl rand -base64 32
    ```
 
 4. Verify your `.env` file has the following variables filled.
