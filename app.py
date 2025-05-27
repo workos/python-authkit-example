@@ -31,14 +31,14 @@ def with_auth(f):
             auth_response.authenticated == False
             and auth_response.reason == "no_session_cookie_provided"
         ):
-            return make_response(redirect("/login"))
+            return make_response(redirect(url_for("login")))
 
         # If no session, attempt a refresh
         try:
             print("Refreshing session")
             result = session.refresh()
             if result.authenticated == False:
-                return make_response(redirect("/login"))
+                return make_response(redirect(url_for("login")))
 
             response = make_response(redirect(request.url))
             response.set_cookie(
@@ -51,7 +51,7 @@ def with_auth(f):
             return response
         except Exception as e:
             print("Error refreshing session", e)
-            response = make_response(redirect("/login"))
+            response = make_response(redirect(url_for("login")))
             response.delete_cookie("wos_session")
             return response
 
@@ -111,7 +111,7 @@ def callback():
 
     except Exception as e:
         print("Error authenticating with code", e)
-        return redirect(url_for("/login"))
+        return redirect(url_for("login"))
 
 
 @app.route("/login")
